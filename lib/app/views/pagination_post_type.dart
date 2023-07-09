@@ -137,7 +137,7 @@ class _SubmissionHistoryPageScrollState
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text("\$ "),
+                const Text("\$ "),
                 Text(item.amount ?? " 0"),
               ],
             ),
@@ -148,9 +148,12 @@ class _SubmissionHistoryPageScrollState
   }
 
   Widget _buildLoadingIndicator() {
-    return const Center(
-      child: CircularProgressIndicator(
-        color: kbluecolor,
+    return const Padding(
+      padding: EdgeInsets.all(12.0),
+      child: Center(
+        child: CircularProgressIndicator(
+          color: kbluecolor,
+        ),
       ),
     );
   }
@@ -194,7 +197,15 @@ class _SubmissionHistoryPageScrollState
                 itemBuilder: (context, index) {
                   if (index < dataList!.length) {
                     return _buildListItem(dataList![index]);
-                  } else if (isLoading) {
+                  }
+                  else if (index > dataList!.length) {
+                    return Text(
+                        (AppLocalizations.of(context)
+                                ?.translate('no_record_found') ??
+                            'No Record Found'),
+                        style: TextStyles.medium());
+                  }
+                  else if (isLoading) {
                     return _buildLoadingIndicator();
                   }
                   // else {
